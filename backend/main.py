@@ -60,6 +60,24 @@ def create_tamagochi(data: dict = Body(...)):
 
     return {"message": f"Тамагочі '{name}' створено!"}
 
+@app.get("/status/{user_id}", summary="Перевірити стан тамагочі")
+def status(user_id: str):
+    try:
+        state = load_state(user_id)
+        return {"state": state}
+    except FileNotFoundError:
+        return {"error": f"Тамагочі з UID {user_id} не знайдено."}
+
+@app.get("/feelings/{user_id}", summary="Емоційний стан тамагочі")
+def feelings(user_id: str):
+    state = load_state(user_id)
+    feelings = {
+        "hungry": state.satiety < 30,
+        "bored": state.happiness < 30,
+        "happy": state.satiety >= 30 and state.happiness >= 30
+    }
+    return {"feelings": feelings}
+
 @app.get("/", response_class=HTMLResponse, summary="Головна сторінка", description="Цей ендпоінт повертає HTML-файл.")
 def root():
     with open("./frontend/index.html", "r", encoding="utf-8") as f:
