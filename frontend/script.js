@@ -23,12 +23,19 @@ async function createNewTamagochi(event) {
     if (!res.ok) {
       throw new Error('Помилка сервера при створенні тамагочі.');
     }
-    const data = await res.json();
-    alert(data.message); // Відображаємо повідомлення сервера
 
-    userId = newUserId;
-    document.getElementById('tamagochi-name').innerText = `Привіт, мене звати ${tamagochiName}`;
-    document.getElementById('user-id-modal').style.display = 'none'; // Закриваємо модальне вікно
+    const data = await res.json();
+
+    // Перевіряємо, чи повідомлення містить ім'я тамагочі
+    if (data.message.includes(tamagochiName)) {
+      alert(data.message); // Відображаємо повідомлення сервера
+
+      userId = newUserId;
+      document.getElementById('tamagochi-name').innerText = `Привіт, мене звати ${tamagochiName}`;
+      document.getElementById('user-id-modal').style.display = 'none'; // Закриваємо модальне вікно
+    } else {
+      alert('Не вдалося створити тамагочі. Спробуйте ще раз.');
+    }
   } catch (error) {
     console.error('Error creating tamagochi:', error);
     alert('Не вдалося створити тамагочі. Спробуйте ще раз.');
