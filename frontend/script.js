@@ -67,3 +67,54 @@ async function returnToExistingTamagochi(event) {
     alert('Не вдалося знайти тамагочі. Спробуйте ще раз.');
   }
 }
+
+async function updateStatusAndFeelings() {
+  try {
+    if (!userId) {
+      console.error('userId не встановлено.');
+      alert('Будь ласка, увійдіть або створіть нового тамагочі.');
+      return;
+    }
+
+    // Оновлюємо статус
+    const statusRes = await fetch(`${api}/status/${userId}`);
+    if (!statusRes.ok) {
+      throw new Error(`Помилка сервера: ${statusRes.status}`);
+    }
+    const statusData = await statusRes.json();
+    document.getElementById('status').innerText = 
+      `Ситість: ${statusData.state.satiety}, Щастя: ${statusData.state.happiness}`;
+
+    // Оновлюємо емоції
+    const feelingsRes = await fetch(`${api}/feelings/${userId}`);
+    if (!feelingsRes.ok) {
+      throw new Error(`Помилка сервера: ${feelingsRes.status}`);
+    }
+    const feelingsData = await feelingsRes.json();
+    const emotionDiv = document.getElementById('emotion');
+
+    // Очищаємо попередній текст і класи
+    emotionDiv.classList.remove('happy', 'sad');
+
+    // Формуємо повідомлення для користувача
+    const { hungry, bored, happy } = feelingsData.feelings;
+    let emotionMessage = "";
+
+    if (hungry) {
+      emotionMessage = "Я голодний! 😢";
+      emotionDiv.classList.add('sad');
+    } else if (bored) {
+      emotionMessage = "Мені нудно... 😞";
+      emotionDiv.classList.add('sad');
+    } else if (happy) {
+      emotionMessage = "Я щасливий! 😊";
+      emotionDiv.classList.add('happy');
+    }
+
+    // Оновлюємо DOM
+    emotionDiv.innerText = emotionMessage;
+  } catch (error) {
+    console.error('Error updating status or feelings', error);
+    alert('Не вдалося оновити статус або емоції.');
+  }
+}
