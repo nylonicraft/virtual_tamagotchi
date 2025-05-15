@@ -30,7 +30,7 @@
     pip install -r requirements.txt
     ```
 
-3. Запустити run.bat
+3. Запустити main.py
 
 4. Сервер буде доступний на `http://localhost:8000`.
 
