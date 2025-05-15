@@ -37,6 +37,8 @@ def load_state(user_id: str) -> TamagotchiState:
 def save_state(user_id: str, state: TamagotchiState):
     state_file = os.path.join(os.path.dirname(__file__), f"../data/state_{user_id}.json")
     data_to_save = state.dict()
+    data_dir = os.path.dirname(state_file)
+    os.makedirs(data_dir, exist_ok=True)
     with open(state_file, "w", encoding="utf-8") as f:
         json.dump(data_to_save, f, ensure_ascii=False, indent=4)
 
