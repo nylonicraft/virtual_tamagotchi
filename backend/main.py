@@ -78,6 +78,20 @@ def feelings(user_id: str):
     }
     return {"feelings": feelings}
 
+@app.post("/feed/{user_id}", summary="Нагодувати тамагочі")
+def feed(user_id: str):
+    state = load_state(user_id)
+    state.satiety = min(state.satiety + 10, 100)
+    save_state(user_id, state)
+    return {"message": "Тамагочі нагодовано!", "state": state}
+
+@app.post("/play/{user_id}", summary="Пограти з тамагочі")
+def play(user_id: str):
+    state = load_state(user_id)
+    state.happiness = min(state.happiness + 10, 100)
+    save_state(user_id, state)
+    return {"message": "Тамагочі пограв!", "state": state}
+
 @app.get("/", response_class=HTMLResponse, summary="Головна сторінка", description="Цей ендпоінт повертає HTML-файл.")
 def root():
     with open("./frontend/index.html", "r", encoding="utf-8") as f:
