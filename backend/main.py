@@ -1,5 +1,6 @@
 import os
 import json
+import asyncio
 
 from fastapi import FastAPI, Body
 from fastapi.middleware.cors import CORSMiddleware
@@ -91,6 +92,31 @@ def play(user_id: str):
     state.happiness = min(state.happiness + 10, 100)
     save_state(user_id, state)
     return {"message": "Тамагочі пограв!", "state": state}
+
+async def decrease_state():
+    while True:
+        # Отримуємо список усіх файлів стану користувачів
+        data_dir = os.path.join(os.path.dirname(__file__), "../data")
+        user_files = [f for f in os.listdir(data_dir) if f.startswith("state_") and f.endswith(".json")]
+
+        for user_file in user_files:
+            # Витягуємо user_id з імені файлу
+            user_id = user_file.replace("state_", "").replace(".json", "")
+            state = load_state(user_id)
+
+            # Зменшуємо рівень ситості та щастя
+            state.satiety = max(state.satiety - 1, 0)
+            state.happiness = max(state.happiness - 1, 0)
+
+            # Зберігаємо оновлений стан
+            save_state(user_id, state)
+
+        # Чекаємо 40 секунд перед наступним циклом
+        await asyncio.sleep(40)
+
+@app.on_event("startup")
+async def startup_event():
+    asyncio.create_task(decrease_state())
 
 @app.get("/", response_class=HTMLResponse, summary="Головна сторінка", description="Цей ендпоінт повертає HTML-файл.")
 def root():
