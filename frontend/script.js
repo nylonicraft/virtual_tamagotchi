@@ -147,13 +147,13 @@ async function updateStatusAndFeelings() {
 // Зміна зображення на гіфку
 function changeImageToGif() {
   const img = document.getElementById('tamagochi-image');
-  img.src = '/static/media/tamagotchi_dance.gif'; // Шлях до гіфки
+  img.src = '/static/assets/tamagotchi_dance.gif'; // Шлях до гіфки
 }
 
 // Зміна зображення на світлину
 function changeImageToJpg() {
   const img = document.getElementById('tamagochi-image');
-  img.src = '/static/media/tamagotchi.png'; // Шлях до світлини
+  img.src = '/static/assets/tamagotchi.png'; // Шлях до світлини
 }
 
 // Переміщення тамагочі в контейнері
