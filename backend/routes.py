@@ -1,6 +1,7 @@
 from models import TamagotchiState
 from services import load_state, save_state
 from fastapi import APIRouter, Body
+import os
 
 router = APIRouter()
 
@@ -30,7 +31,7 @@ def status(user_id: str):
     except FileNotFoundError:
         return {"error": f"Тамагочі з UID {user_id} не знайдено."}
     
-@app.get("/feelings/{user_id}", summary="Емоційний стан тамагочі", description="Цей ендпоінт повертає емоційний стан тамагочі за його UID.")
+@router.get("/feelings/{user_id}", summary="Емоційний стан тамагочі", description="Цей ендпоінт повертає емоційний стан тамагочі за його UID.")
 def feelings(user_id: str):
     # Завантаження стану тамагочі з файлу
     state = load_state(user_id)
