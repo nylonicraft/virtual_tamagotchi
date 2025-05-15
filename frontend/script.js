@@ -155,3 +155,34 @@ function changeImageToJpg() {
   const img = document.getElementById('tamagochi-image');
   img.src = '/static/media/tamagotchi.png'; // Шлях до світлини
 }
+
+// Переміщення тамагочі в контейнері
+function moveTamagochiInContainer() {
+  const img = document.getElementById('tamagochi-image');
+  const container = document.querySelector('.image-container');
+  const containerWidth = container.offsetWidth;
+  const imgWidth = img.offsetWidth;
+
+  // Випадковий напрямок (-1 для вліво, 1 для вправо)
+  const direction = Math.random() > 0.5 ? 1 : -1;
+
+  const moveDistance = 50 * direction;
+
+  // Поточна позиція
+  const currentLeft = parseInt(getComputedStyle(img).left || 0, 10);
+
+  // Нова позиція (з урахуванням меж контейнера)
+  let newLeft = currentLeft + moveDistance;
+  if (newLeft < 0) newLeft = 0; // Не виходимо за ліву межу
+  if (newLeft > containerWidth - imgWidth) newLeft = containerWidth - imgWidth; // Не виходимо за праву межу
+
+  // Віддзеркалення зображення
+  img.style.transform = direction === 1 ? 'scaleX(-1)' : 'scaleX(1)';
+
+  // Анімація переміщення
+  img.style.transition = 'left 0.8s ease-out';
+  img.style.left = `${newLeft}px`;
+}
+
+// Викликаємо функцію кожні 2-5 секунд
+setInterval(moveTamagochiInContainer, Math.random() * 3000 + 2000);
