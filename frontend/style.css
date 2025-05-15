@@ -1,0 +1,117 @@
+body {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    background-color: #302f36;
+}
+
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 300px;
+}
+
+.modal-content h2, .modal-content h3 {
+    margin-bottom: 20px;
+}
+
+.modal-content input {
+    padding: 10px;
+    font-size: 1em;
+    margin-bottom: 10px;
+    width: 90%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.modal-content button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.modal-content button:hover {
+    background-color: #45a049;
+}
+
+/* Прихований контейнер */
+.hidden {
+    display: none;
+}
+
+h1 {
+    color: #ffffff;
+    margin-top: 40px;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 5px #000000;
+}
+
+button {
+    padding: 15px 30px;
+    margin: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 1.2em;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #45a049;
+    transform: scale(1.1);
+}
+
+.button-container {
+    margin: 20px 0;
+}
+
+#status {
+    margin-top: 20px;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 1px 1px 3px #000000;
+}
+
+.emotion {
+    font-size: 2em;
+    margin-top: 20px;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px #000000;
+}
+
+.emotion.happy {
+    color: #4CAF50;
+}
+
+.emotion.sad {
+    color: #F44336;
+}
+
+footer {
+    margin-top: 40px;
+    color: #ffffff;
+    font-size: 0.9em;
+    text-shadow: 1px 1px 3px #000000;
+}
