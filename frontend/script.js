@@ -68,6 +68,29 @@ async function returnToExistingTamagochi(event) {
   }
 }
 
+// Універсальна функція для виконання дій (feed/play)
+async function performAction(endpoint, successMessage) {
+  try {
+    const res = await fetch(`${api}/${endpoint}/${userId}`, { method: 'POST' });
+    const data = await res.json();
+    alert(successMessage || data.message);
+    await updateStatusAndFeelings(); // Оновлюємо статус і емоції
+  } catch (error) {
+    console.error(`Error performing action: ${endpoint}`, error);
+    alert('Щось пішло не так. Спробуйте ще раз.');
+  }
+}
+
+// Функція для нагодування
+function feed() {
+  performAction('feed', 'Тамагочі нагодовано!');
+}
+
+// Функція для гри
+function play() {
+  performAction('play', 'Тамагочі пограв!');
+}
+
 async function updateStatusAndFeelings() {
   try {
     if (!userId) {
