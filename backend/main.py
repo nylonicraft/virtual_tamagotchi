@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from routes import router
-from backend.tasks import decrease_state
+from tasks import decrease_state
 
 app = FastAPI()
 
