@@ -1,7 +1,7 @@
 import os
 import json
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Body
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -39,6 +39,24 @@ def save_state(user_id: str, state: TamagotchiState):
     data_to_save = state.dict()
     with open(state_file, "w", encoding="utf-8") as f:
         json.dump(data_to_save, f, ensure_ascii=False, indent=4)
+
+@app.post("/create", summary="Створити нового тамагочі")
+def create_tamagochi(data: dict = Body(...)):
+    user_id = data.get("user_id")
+    name = data.get("name")
+
+    if not user_id or not name:
+        return {"message": "UID та ім'я обов'язкові."}
+
+    state_file = os.path.join(os.path.dirname(__file__), f"../data/state_{user_id}.json")
+    if os.path.exists(state_file):
+        return {"message": "Тамагочі з таким UID вже існує."}
+
+    # Створюємо початковий стан з ім'ям
+    state = TamagotchiState(name=name, satiety=50, happiness=50)
+    save_state(user_id, state)
+
+    return {"message": f"Тамагочі '{name}' створено!"}
 
 @app.get("/", response_class=HTMLResponse, summary="Головна сторінка", description="Цей ендпоінт повертає HTML-файл.")
 def root():
